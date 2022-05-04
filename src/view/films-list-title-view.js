@@ -1,6 +1,6 @@
 import {createElement} from '../render';
 
-const createFilmsListTitleTemplate = () => '<h2 class="films-list__title">Loading...</h2>';
+const createFilmsListTitleTemplate = () => '<h2 class="films-list__title visually-hidden">All movies. Upcoming</h2>';
 
 export default class FilmsListTitleView {
   getTemplate() {

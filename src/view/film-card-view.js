@@ -1,5 +1,5 @@
 import {createElement} from '../render';
-import {transformFilmReleaseDateYear, transformFilmRuntime} from '../utils';
+import {transformFilmReleaseDateYear, transformFilmRuntime} from '../utils/utils';
 
 const createFilmCardTemplate = (film) => {
   const { comments } = film;

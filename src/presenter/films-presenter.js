@@ -7,24 +7,27 @@ import FilmCardView from '../view/film-card-view';
 import ShowMoreButtonView from '../view/show-more-button-view';
 
 export default class FilmsPresenter {
-  filmsContent = new FilmsContentView();
-  filmsList = new FilmsListView();
-  filmsContainer = new FilmsContainerView();
+  #filmsContent = new FilmsContentView();
+  #filmsList = new FilmsListView();
+  #filmsContainer = new FilmsContainerView();
+  #container = null;
+  #filmsModel = null;
+  #filmsData = [];
 
   init = (container, filmsModel) => {
-    this.container = container;
-    this.filmsModel = filmsModel;
-    this.filmsData = [...this.filmsModel.getFilm()];
+    this.#container = container;
+    this.#filmsModel = filmsModel;
+    this.#filmsData = [...this.#filmsModel.films];
 
-    render(this.filmsContent, this.container);
-    render(this.filmsList, this.filmsContent.getElement());
-    render(new FilmsListTitleView(), this.filmsList.getElement());
-    render(this.filmsContainer, this.filmsList.getElement());
+    render(this.#filmsContent, this.#container);
+    render(this.#filmsList, this.#filmsContent.element);
+    render(new FilmsListTitleView(), this.#filmsList.element);
+    render(this.#filmsContainer, this.#filmsList.element);
 
-    for (let i = 0; i < this.filmsData.length; i++) {
-      render(new FilmCardView(this.filmsData[i]), this.filmsContainer.getElement());
+    for (let i = 0; i < this.#filmsData.length; i++) {
+      render(new FilmCardView(this.#filmsData[i]), this.#filmsContainer.element);
     }
 
-    render(new ShowMoreButtonView(), this.filmsList.getElement());
+    render(new ShowMoreButtonView(), this.#filmsList.element);
   };
 }

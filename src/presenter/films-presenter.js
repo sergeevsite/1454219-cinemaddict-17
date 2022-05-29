@@ -25,9 +25,16 @@ export default class FilmsPresenter {
     render(this.#filmsContainer, this.#filmsList.element);
 
     for (let i = 0; i < this.#filmsData.length; i++) {
-      render(new FilmCardView(this.#filmsData[i]), this.#filmsContainer.element);
+      this.#renderFilm(this.#filmsData[i]);
     }
 
     render(new ShowMoreButtonView(), this.#filmsList.element);
   };
+
+  #renderFilm = (film) => {
+    const filmComponent = new FilmCardView(film);
+
+    render(filmComponent, this.#filmsContainer.element);
+  };
 }
+

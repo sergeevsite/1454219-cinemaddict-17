@@ -6,6 +6,7 @@ import FilmsContainerView from '../view/films-container-view';
 import FilmCardView from '../view/film-card-view';
 import ShowMoreButtonView from '../view/show-more-button-view';
 import FilmDetailsView from '../view/film-details-view';
+import ListEmptyView from '../view/list-empty-view';
 
 const FILM_COUNT_PER_STEP = 5;
 
@@ -16,6 +17,7 @@ export default class FilmsPresenter {
   #filmsList = new FilmsListView();
   #filmsContainer = new FilmsContainerView();
   #showMoreButton = new ShowMoreButtonView();
+  #listEmpty = new ListEmptyView();
 
   #filmsData = [];
   #renderedFilmCount = FILM_COUNT_PER_STEP;
@@ -30,14 +32,18 @@ export default class FilmsPresenter {
     render(new FilmsListTitleView(), this.#filmsList.element);
     render(this.#filmsContainer, this.#filmsList.element);
 
-    for (let i = 0; i < Math.min(this.#filmsData.length, this.#renderedFilmCount); i++) {
-      this.#renderFilm(this.#filmsData[i]);
-    }
+    if(this.#filmsData.length <= 0) {
+      render(this.#listEmpty, this.#filmsList.element);
+    } else {
+      for (let i = 0; i < Math.min(this.#filmsData.length, this.#renderedFilmCount); i++) {
+        this.#renderFilm(this.#filmsData[i]);
+      }
 
-    if(this.#filmsData.length > FILM_COUNT_PER_STEP) {
-      render(this.#showMoreButton, this.#filmsList.element);
+      if(this.#filmsData.length > FILM_COUNT_PER_STEP) {
+        render(this.#showMoreButton, this.#filmsList.element);
 
-      this.#showMoreButton.element.addEventListener('click', this.#LoadMoreButtonHandler);
+        this.#showMoreButton.element.addEventListener('click', this.#LoadMoreButtonHandler);
+      }
     }
 
   };

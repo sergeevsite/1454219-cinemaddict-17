@@ -6,14 +6,21 @@ import FilmsContainerView from '../view/films-container-view';
 import FilmCardView from '../view/film-card-view';
 import ShowMoreButtonView from '../view/show-more-button-view';
 import FilmDetailsView from '../view/film-details-view';
+import ListEmptyView from '../view/list-empty-view';
+
+const FILM_COUNT_PER_STEP = 5;
 
 export default class FilmsPresenter {
+  #container = null;
+  #filmsModel = null;
   #filmsContent = new FilmsContentView();
   #filmsList = new FilmsListView();
   #filmsContainer = new FilmsContainerView();
-  #container = null;
-  #filmsModel = null;
+  #showMoreButton = new ShowMoreButtonView();
+  #listEmpty = new ListEmptyView();
+
   #filmsData = [];
+  #renderedFilmCount = FILM_COUNT_PER_STEP;
 
   init = (container, filmsModel) => {
     this.#container = container;
@@ -25,11 +32,35 @@ export default class FilmsPresenter {
     render(new FilmsListTitleView(), this.#filmsList.element);
     render(this.#filmsContainer, this.#filmsList.element);
 
-    for (let i = 0; i < this.#filmsData.length; i++) {
-      this.#renderFilm(this.#filmsData[i]);
+    if(this.#filmsData.length <= 0) {
+      render(this.#listEmpty, this.#filmsList.element);
+    } else {
+      for (let i = 0; i < Math.min(this.#filmsData.length, this.#renderedFilmCount); i++) {
+        this.#renderFilm(this.#filmsData[i]);
+      }
+
+      if(this.#filmsData.length > FILM_COUNT_PER_STEP) {
+        render(this.#showMoreButton, this.#filmsList.element);
+
+        this.#showMoreButton.element.addEventListener('click', this.#LoadMoreButtonHandler);
+      }
     }
 
-    render(new ShowMoreButtonView(), this.#filmsList.element);
+  };
+
+  #LoadMoreButtonHandler = (event) => {
+    event.preventDefault();
+
+    this.#filmsData
+      .slice(this.#renderedFilmCount, this.#renderedFilmCount + FILM_COUNT_PER_STEP)
+      .forEach((film) => this.#renderFilm(film));
+
+    this.#renderedFilmCount += FILM_COUNT_PER_STEP;
+
+    if(this.#renderedFilmCount >= this.#filmsData.length) {
+      this.#showMoreButton.element.remove();
+      this.#showMoreButton.removeElement();
+    }
   };
 
   #renderFilm = (film) => {

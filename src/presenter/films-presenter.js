@@ -42,15 +42,13 @@ export default class FilmsPresenter {
       if(this.#filmsData.length > FILM_COUNT_PER_STEP) {
         render(this.#showMoreButton, this.#filmsList.element);
 
-        this.#showMoreButton.element.addEventListener('click', this.#LoadMoreButtonHandler);
+        this.#showMoreButton.setClickHandler(this.#LoadMoreButtonHandler);
       }
     }
 
   };
 
-  #LoadMoreButtonHandler = (event) => {
-    event.preventDefault();
-
+  #LoadMoreButtonHandler = () => {
     this.#filmsData
       .slice(this.#renderedFilmCount, this.#renderedFilmCount + FILM_COUNT_PER_STEP)
       .forEach((film) => this.#renderFilm(film));
@@ -67,8 +65,7 @@ export default class FilmsPresenter {
     const filmComponent = new FilmCardView(film);
     const filmDetailsComponent = new FilmDetailsView(film);
 
-    const closingFilmDetails = (event) => {
-      event.preventDefault();
+    const closingFilmDetails = () => {
       this.#filmsList.element.removeChild(filmDetailsComponent.element);
       document.body.classList.remove('hide-overflow');
       document.removeEventListener('keydown', keyDownClosingHandler);
@@ -82,14 +79,13 @@ export default class FilmsPresenter {
       }
     }
 
-    filmComponent.link.addEventListener('click', (event) => {
-      event.preventDefault();
+    filmComponent.setShowDetailsClickHandler(() => {
       this.#filmsList.element.appendChild(filmDetailsComponent.element);
       document.body.classList.add('hide-overflow');
       document.addEventListener('keydown', keyDownClosingHandler);
     });
 
-    filmDetailsComponent.closeButton.addEventListener('click', clickClosingHandler);
+    filmDetailsComponent.setCloseDetailsClickHandler(clickClosingHandler);
 
     render(filmComponent, this.#filmsContainer.element);
   };

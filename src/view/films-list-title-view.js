@@ -1,22 +1,9 @@
-import {createElement} from '../render';
+import AbstractView from '../framework/view/abstract-view';
 
 const createFilmsListTitleTemplate = () => '<h2 class="films-list__title visually-hidden">All movies. Upcoming</h2>';
 
-export default class FilmsListTitleView {
-  #element = null;
+export default class FilmsListTitleView extends AbstractView {
   get template() {
     return createFilmsListTitleTemplate();
-  }
-
-  get element() {
-    if (!this.#element) {
-      this.#element = createElement(this.template);
-    }
-
-    return this.#element;
-  }
-
-  removeElement() {
-    this.#element = null;
   }
 }

@@ -1,4 +1,4 @@
-import {render} from './render';
+import {render} from './framework/render';
 import FilmsModel from './model/films-model';
 import FilmsPresenter from './presenter/films-presenter';
 import ProfileRatingView from './view/profile-rating-view';

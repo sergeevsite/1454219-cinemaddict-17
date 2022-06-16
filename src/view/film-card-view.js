@@ -1,5 +1,5 @@
-import {createElement} from '../render';
 import {transformFilmReleaseDateYear, transformFilmRuntime} from '../utils/utils';
+import AbstractView from '../framework/view/abstract-view';
 
 const createFilmCardTemplate = (film) => {
   const { comments } = film;
@@ -39,11 +39,11 @@ const createFilmCardTemplate = (film) => {
   );
 };
 
-export default class FilmCardView {
-  #element = null;
+export default class FilmCardView extends AbstractView {
   #film = null;
 
   constructor(film) {
+    super();
     this.#film = film;
   }
 
@@ -51,19 +51,7 @@ export default class FilmCardView {
     return createFilmCardTemplate(this.#film);
   }
 
-  get element() {
-    if (!this.#element) {
-      this.#element = createElement(this.template);
-    }
-
-    return this.#element;
-  }
-
   get link() {
     return this.element.querySelector('.film-card__link');
-  }
-
-  removeElement() {
-    this.#element = null;
   }
 }

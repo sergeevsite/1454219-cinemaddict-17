@@ -1,5 +1,5 @@
-import {createElement} from '../render';
 import {transformFilmReleaseDateFull, transformFilmRuntime} from '../utils/utils';
+import AbstractView from '../framework/view/abstract-view';
 
 const createFilmDetailsTemplate = (film) => {
   const { title, alternativeTitle, totalRating, ageRating, description, poster, runtime, release, genre, actors, director, writers } = film.filmInfo;
@@ -178,11 +178,11 @@ const createFilmDetailsTemplate = (film) => {
   );
 };
 
-export default class FilmDetailsView {
-  #element = null;
+export default class FilmDetailsView extends AbstractView {
   #film = null;
 
   constructor(film) {
+    super();
     this.#film = film;
   }
 
@@ -190,19 +190,7 @@ export default class FilmDetailsView {
     return createFilmDetailsTemplate(this.#film);
   }
 
-  get element() {
-    if (!this.#element) {
-      this.#element = createElement(this.template);
-    }
-
-    return this.#element;
-  }
-
   get closeButton() {
     return this.element.querySelector('.film-details__close-btn');
-  }
-
-  removeElement() {
-    this.#element = null;
   }
 }

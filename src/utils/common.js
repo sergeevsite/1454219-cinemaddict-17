@@ -15,4 +15,6 @@ const getRandomArrayValue = (array) => {
   return array[randomIndex];
 };
 
-export {getRandomInteger, getRandomNumber, getRandomArrayValue};
+const getCapitalFirstLetter = (value) => value[0].toUpperCase() + value.slice(1);
+
+export {getRandomInteger, getRandomNumber, getRandomArrayValue, getCapitalFirstLetter};

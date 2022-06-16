@@ -1,4 +1,4 @@
-import {render} from '../framework/render';
+import {render, remove} from '../framework/render';
 import FilmsContentView from '../view/films-content-view';
 import FilmsListView from '../view/films-list-view';
 import FilmsListTitleView from '../view/films-list-title-view';
@@ -56,8 +56,7 @@ export default class FilmsPresenter {
     this.#renderedFilmCount += FILM_COUNT_PER_STEP;
 
     if(this.#renderedFilmCount >= this.#filmsData.length) {
-      this.#showMoreButton.element.remove();
-      this.#showMoreButton.removeElement();
+      remove(this.#showMoreButton);
     }
   };
 
